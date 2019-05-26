@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default class Register extends Component {
+import { register } from "../../actions/authActions";
+import { createMessage } from "../../actions/messageActions";
+
+class Register extends Component {
   state = {
     username: "",
     email: "",
@@ -15,11 +19,19 @@ export default class Register extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log("Submit");
+    const { username, email, password, confirmPassword } = this.state;
+    if (confirmPassword === password) {
+      this.props.register({ username, email, password });
+    } else {
+      this.props.createMessage({ passwordNotMatch: "Password does not match" });
+    }
   };
 
   render() {
     const { username, email, password, confirmPassword } = this.state;
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="col-md-6 m-auto">
         <div className="card card-body mt-5">
@@ -48,7 +60,7 @@ export default class Register extends Component {
             <div className="form-group">
               <label>Password</label>
               <input
-                type="text"
+                type="password"
                 className="form-control"
                 name="password"
                 onChange={this.onChange}
@@ -79,3 +91,10 @@ export default class Register extends Component {
     );
   }
 }
+
+export default connect(
+  state => ({
+    isAuthenticated: state.auth.isAuthenticated
+  }),
+  { register, createMessage }
+)(Register);

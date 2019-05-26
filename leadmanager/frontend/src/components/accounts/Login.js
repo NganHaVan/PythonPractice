@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default class Login extends Component {
+import { logIn } from "../../actions/authActions";
+
+class Login extends Component {
   state = {
     username: "",
     password: ""
@@ -13,15 +16,22 @@ export default class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log("Submit");
+    this.props.logIn({
+      username: this.state.username,
+      password: this.state.password
+    });
   };
 
   render() {
     const { username, password } = this.state;
+    const { isAuth } = this.props;
+    if (isAuth) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="col-md-6 m-auto">
         <div className="card card-body mt-5">
-          <h2 className="text-center">Register</h2>
+          <h2 className="text-center">Login</h2>
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Username</label>
@@ -36,7 +46,7 @@ export default class Login extends Component {
             <div className="form-group">
               <label>Password</label>
               <input
-                type="text"
+                type="password"
                 className="form-control"
                 name="password"
                 onChange={this.onChange}
@@ -57,3 +67,8 @@ export default class Login extends Component {
     );
   }
 }
+
+export default connect(
+  state => ({ isAuth: state.auth.isAuthenticated }),
+  { logIn }
+)(Login);

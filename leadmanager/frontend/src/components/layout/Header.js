@@ -1,8 +1,41 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../../actions/authActions";
 
-export default class Header extends Component {
+class Header extends Component {
+  handleLogout = () => {
+    this.props.logout();
+  };
   render() {
+    const { isAuthenticated } = this.props;
+    const authLinks = (
+      <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li className="nav-item">
+          <button
+            type="submit"
+            onClick={this.handleLogout}
+            className="nav-item btn btn-sm text-light"
+          >
+            Logout
+          </button>
+        </li>
+      </ul>
+    );
+    const guestLinks = (
+      <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li className="nav-item">
+          <Link className="nav-link" to="/signup">
+            Register
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/login">
+            Login
+          </Link>
+        </li>
+      </ul>
+    );
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
         <a className="navbar-brand" href="#">
@@ -28,20 +61,16 @@ export default class Header extends Component {
               </Link>
             </li>
           </ul>
-          <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/signup">
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
-          </ul>
+          {isAuthenticated ? authLinks : guestLinks}
         </div>
       </nav>
     );
   }
 }
+
+export default connect(
+  state => ({
+    isAuthenticated: state.auth.isAuthenticated
+  }),
+  { logout }
+)(Header);
