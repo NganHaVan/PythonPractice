@@ -1,14 +1,15 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Header extends Component {
   render() {
     return (
-      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a className="navbar-brand" href="#">
           Lead Manager
         </a>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-toggle="collapse"
           data-target="#navbarTogglerDemo02"
@@ -16,30 +17,27 @@ export default class Header extends Component {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon" />
+          <span className="navbar-toggler-icon" />
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Home <span class="sr-only">(current)</span>
-              </a>
+        <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">
+                Home
+              </Link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Link
-              </a>
+          </ul>
+          <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link" to="/signup">
+                Register
+              </Link>
             </li>
-            <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-              >
-                Disabled
-              </a>
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
             </li>
           </ul>
         </div>
