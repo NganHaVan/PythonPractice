@@ -4,7 +4,7 @@ from django.db import models
 
 
 class GameCategory(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
 
     class Meta:
         ordering = ('name',)
@@ -16,7 +16,8 @@ class GameCategory(models.Model):
 
 class Game(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=200, blank=True, default='')
+    name = models.CharField(max_length=200, blank=False,
+                            default='', unique=True)
     released_dated = models.DateTimeField()
     # Many-to-one relationship with the game category model
     # CASCADE: Whenever a game category is deleted, all the games that belong to this category will be deleted too
@@ -25,7 +26,7 @@ class Game(models.Model):
     played = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('pk',)
 
     def __str__(self):
         return self.name
@@ -36,7 +37,8 @@ class Player(models.Model):
     FEMALE = 'F'
     GENDER_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'),)
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=200, blank=True, default='')
+    name = models.CharField(max_length=200, blank=False,
+                            default='', unique=True)
     gender = models.CharField(
         max_length=2, choices=GENDER_CHOICES, default=MALE)
 

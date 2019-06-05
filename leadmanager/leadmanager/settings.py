@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'knox',
     'accounts',
     'games',
-    'postings'
+    'postings',
+    'faker'
 ]
 
 REST_FRAMEWORK = {
@@ -54,7 +55,10 @@ REST_FRAMEWORK = {
         'knox.auth.TokenAuthentication', 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-    )
+    ),
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'games.pagination.LimitOffsetPaginationWithMaxLimit',
+    'PAGE_SIZE': 4
 }
 
 MIDDLEWARE = [
