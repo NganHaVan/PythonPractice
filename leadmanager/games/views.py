@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 from .models import Game, GameCategory, Player, PlayScore
 from .serializer import (GameCategorySerializer, GameSerializer,
                          PlayerSerializer, PlayScoreSerializer)
+from .pagination import PageNumberCustomization
 
 
 class GameCategoryList(generics.ListCreateAPIView):
@@ -23,6 +24,7 @@ class GameCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 class GameList(generics.ListCreateAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+    pagination_lass = PageNumberCustomization
     name = 'game-list'
 
 
